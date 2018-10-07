@@ -1,5 +1,8 @@
 package app.servlets;
 
+import app.entities.StandartGame;
+import app.model.SingletonModel;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +20,21 @@ public class AddServlet extends HttpServlet {
 
         // теперь передадим диспетчеру и запрос, и ответ
         dispatcher.forward(req, resp);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // на основании параметров создаддим новый объект игры и добавим его в список игр через модель
+        String name = req.getParameter("name");
+        String genre = req.getParameter("genre");
+        int price = Integer.parseInt(req.getParameter("price"));
+
+        StandartGame game = new StandartGame(name, price, genre);
+
+        SingletonModel model = SingletonModel.getModel();
+        model.addGames(game);
+
+        req.setAttribute("success", game);
+        doGet(req, resp);
     }
 }

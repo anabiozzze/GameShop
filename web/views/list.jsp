@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="app.entities.StandartGame" %><%--
   Created by IntelliJ IDEA.
   User: andreimironov
   Date: 04/10/2018
@@ -12,5 +13,14 @@
 </head>
 <body>
 МЫ НАХОДИМСЯ В JSP LIST
+
+<%
+    List<StandartGame> games =  (List<StandartGame>) request.getAttribute("allGames");
+    if (!games.isEmpty() || games!=null) {
+        for (StandartGame gm : games) {
+            out.println("<li>" + gm.getGenre() + "; " + gm.getName() + "; " + gm.getPrice() + "</li>");
+        }
+    } else out.print("Каталог пока что пуст!");
+%>
 </body>
 </html>

@@ -13,10 +13,12 @@ public class SingletonModel {
     private static SingletonModel model;
 
     public SingletonModel() {
+        addGames(new StandartGame("Game1", 12, "RPG"));
+        addGames(new StandartGame("Game2", 15, "FPS"));
     }
 
     public static synchronized SingletonModel getModel() {
-        if (model.equals(null)) {
+        if (model==null) {
             model = new SingletonModel();
         }
         return model;
