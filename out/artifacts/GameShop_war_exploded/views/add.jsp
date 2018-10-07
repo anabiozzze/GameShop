@@ -8,43 +8,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="styles/w3.css">
     <title>ДОБАВЛЕНИЕ НОВОЙ ИГРЫ</title>
-</head>
-<body>
 
-<div>
+</head>
+<body class="w3-light-grey">
+<div class="w3-container w3-blue-grey w3-animate-opacity w3-animate-left">
     <h1>Введите жанр, наименование и цену игры:</h1>
 </div>
 
-
-<div>
 <form method="post">
 
-    <label>Name:
-        <input type="text" name="name"><br />
+    <br />
+    <div class="w3-container w3-left-align">
+    <label>
+        <input type="text" name="name"> НАЗВАНИЕ<br />
     </label>
+    </div>
 
-    <label>Genre:
-        <input type="text" name="genre"><br />
+    <div class="w3-container w3-left-align">
+    <label>
+        <input type="text" name="genre"> ЖАНР<br />
     </label>
+    </div>
 
-    <label>Price:
-        <input type="text" name="price"><br />
+    <div class="w3-container w3-left-align">
+    <label>
+        <input type="text" name="price"> ЦЕНА<br />
     </label>
+    </div>
 
-    <button type="submit">Submit</button>
-
+    <br />
+    <div class="w3-container w3-left-align w3-margin-bottom">
+    <button class="w3-button w3-blue-grey w3-round-large" type="submit">Добавить</button>
+    </div>
     <%
         if (request.getAttribute("success")!=null) {
             out.println();
             out.println("Игра успешно добавлена в каталог!");
         }%>
 
-</div>
 </form>
 
-<div>
-    <button onclick="location.href='/'">Back to main</button>
+<div class="w3-container w3-left-align">
+    <button class="w3-button w3-blue-grey w3-round-large" onclick="location.href='/'">На главную</button>
 </div>
 
 </body>
