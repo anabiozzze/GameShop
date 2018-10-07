@@ -20,16 +20,41 @@
 <div class="list">
 <div class="w3-container w3-left-align">
     <br />
+
+    <li>
+        <span style="margin-left: 75px"><b>Жанр</b></span>
+        <span style="margin-left: 75px"><b>Название</b></span>
+        <span style="margin-left: 75px"><b>Цена($)</b></span>
+        </li>
 <%
     List<StandartGame> games =  (List<StandartGame>) request.getAttribute("allGames");
     if (!games.isEmpty() || games!=null) {
         for (StandartGame gm : games) {
-            out.print("<li>" + gm.getGenre() + "; " + gm.getName() + "; " + gm.getPrice() + "</li>");
-            %>
+%>
+    <li>
+        <%--Выводим описание игры через определенный отсчтуп, чтобы попасть в столбцы категорий--%>
+        <span style = "margin-left: 75px">
+        <%
+            out.print(gm.getGenre() + ";");
+        %>
+        </span>
+        <span style = "margin-left: 80px">
+        <%
+            out.print(gm.getName() + ";");
+        %>
+        </span>
+        <span style = "margin-left: 87px">
+        <%
+            out.print(gm.getPrice());
+        %>
+
     <%--Добавляем кнопку "удалить"--%>
-    <span class="button1">
+    <span class="button1" style = "margin-left: 75px">
         <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">удалить</button>
     </span>
+    </li>
+    <br />
+
     <%--Возвращаемся в foreach--%>
     <%
         }
