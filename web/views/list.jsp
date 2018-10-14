@@ -11,13 +11,22 @@
 <head>
     <link rel="stylesheet" href="styles/w3.css">
     <title>ПОЛНЫЙ КАТАЛОГ</title>
+    <style>
+        .layer {
+            width: 85px; /* Ширина блока */
+            height: 50px; /* Высота блока */
+            padding: 5px; /* Поля вокруг текста */
+            border: solid 1px black; /* Параметры рамки */
+            white-space: pre-wrap; /* Запрещаем перенос строк */
+        }
+    </style>
 </head>
 <body class="w3-light-gray">
 <div class="w3-container w3-animate-left w3-animate-opacity w3-blue-gray">
     <h1>На данный момент доступны игры:</h1>
 </div>
 
-<div class="list">
+<div class="lay">
 <div class="w3-container w3-left-align">
     <br />
 
@@ -32,18 +41,18 @@
         for (StandartGame gm : games) {
 %>
     <li>
-        <%--Выводим описание игры через определенный отсчтуп, чтобы попасть в столбцы категорий--%>
+        <%--Выводим описание игры через определенный отступ, чтобы попасть в столбцы категорий--%>
         <span style = "margin-left: 75px">
         <%
             out.print(gm.getGenre() + ";");
         %>
         </span>
-        <span style = "margin-left: 80px">
+        <span style = "margin-left: 75px">
         <%
             out.print(gm.getName() + ";");
         %>
         </span>
-        <span style = "margin-left: 87px">
+        <span style = "margin-left: 90px">
         <%
             out.print(gm.getPrice());
         %>
@@ -52,7 +61,13 @@
     <span class="button1" style = "margin-left: 75px">
         <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">удалить</button>
     </span>
+                <%
+        if (request.getAttribute("success")!=null) {
+            out.println();
+            out.println("Игра успешно удалена!");
+        }%>
     </li>
+
     <br />
 
     <%--Возвращаемся в foreach--%>

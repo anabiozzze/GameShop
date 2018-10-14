@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AddServlet extends HttpServlet {
+
+public class DelServlet extends HttpServlet {
+    SingletonModel model;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //при получении запроса на удаление - этот метод будет подтверждать удаление на странице add
 
         // создаем диспетчер запросов; аргументом указываем адрес нужной jsp
         RequestDispatcher dispatcher = req.getRequestDispatcher("views/add.jsp");
@@ -23,16 +27,13 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // на основании параметров создадим новый объект игры и добавим его в список игр через модель
-
+        // удаляем нужную запись из БД
         String name = req.getParameter("name");
         String genre = req.getParameter("genre");
         double price = Double.parseDouble(req.getParameter("price"));
 
         StandartGame game = new StandartGame(name, price, genre);
-
-        SingletonModel model = SingletonModel.getModel();
-        model.addGames(game);
+        model.delGames(game);
 
         req.setAttribute("success", game);
         doGet(req, resp);

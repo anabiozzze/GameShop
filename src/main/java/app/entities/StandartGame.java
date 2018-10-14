@@ -4,10 +4,10 @@ public class StandartGame {
     // общий класс-предок для всех будущих игр
 
     private String name = "Game";
-    private int price = 0;
+    private double price = 0;
     private String genre = "RPG";
 
-    public StandartGame(String name, int price, String genre) {
+    public StandartGame(String name, double price, String genre) {
         this.name = name;
         this.price = price;
         this.genre = genre;
@@ -20,7 +20,7 @@ public class StandartGame {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -32,7 +32,7 @@ public class StandartGame {
         this.name = name;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
