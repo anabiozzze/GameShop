@@ -3,9 +3,9 @@ package app.entities;
 public class StandartGame {
     // общий класс-предок для всех будущих игр
 
-    private String name = "Game";
-    private double price = 0;
-    private String genre = "RPG";
+    private String name;
+    private double price;
+    private String genre;
 
     public StandartGame(String name, double price, String genre) {
         this.name = name;

@@ -59,7 +59,7 @@
 
     <%--Добавляем кнопку "удалить"--%>
     <span class="button1" style = "margin-left: 75px">
-        <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">удалить</button>
+        <button class="w3-button w3-blue-grey w3-round-large" type="submit">удалить</button>
     </span>
                 <%
         if (request.getAttribute("success")!=null) {

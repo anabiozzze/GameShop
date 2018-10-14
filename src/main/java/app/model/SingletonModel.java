@@ -1,19 +1,20 @@
 package app.model;
 
+
 import app.entities.StandartGame;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SingletonModel {
 
-//  private static List<StandartGame> games = new ArrayList<StandartGame>();
     private static SingletonModel model;
 
     private static final String USERNAME = "root";
     private static final String PASSWORD = "ROOT123456";
     private static final String DATABASEURL = "jdbc:mysql://localhost:3306/test?serverTimezone=Europe/Moscow&useSSL=false";
 
-    public static String driverPath = "com.mysql.jdbc.Driver";
+    public static String driverPath = "com.mysql.cj.jdbc.Driver";
     public static Connection connection;
     public static Statement statement;
 
@@ -29,12 +30,27 @@ public class SingletonModel {
     }
 
     public static synchronized List<StandartGame> getList() {
+
+        List<StandartGame> games = new ArrayList<StandartGame>();
+
         try {
             Class.forName(driverPath);
             connection = DriverManager.getConnection(DATABASEURL, USERNAME, PASSWORD);
             statement = connection.createStatement();
 
-            statement.execute("select * from GameShop");
+            ResultSet resultSet = statement.executeQuery("select * from GameShop");
+
+            String thisName, thisGenre;
+            double thisPrice;
+
+            while (resultSet.next()) {
+                thisPrice = resultSet.getDouble("price");
+                thisName = resultSet.getString("name");
+                thisGenre = resultSet.getString("genre");
+
+                StandartGame game = new StandartGame(thisName, thisPrice, thisGenre);
+                games.add(game);
+            }
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -42,7 +58,7 @@ public class SingletonModel {
             e.printStackTrace();
         }
 
-        return null;
+        return games;
     }
 
     public static synchronized void addGames(StandartGame ... gamez) {
@@ -78,8 +94,8 @@ public class SingletonModel {
             String thisName = game.getName(), thisGenre = game.getGenre();
             double thisPrice = game.getPrice();
 
-            statement.executeUpdate("delete from GameShop (name, genre, price) VALUE " +
-                        "('"+thisName+"', '"+thisGenre+"', '"+thisPrice+"')");
+            statement.executeUpdate("delete from GameShop WHERE name =  '"+thisName+"' AND genre = " +
+                    "'"+thisGenre+"' AND price = '"+thisPrice+"'");
 
 
         } catch (Exception e) {
