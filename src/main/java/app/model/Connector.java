@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Connector {
+    // класс отвечает за установление и разрыв соединения с БД
+    // другие классы получают уже готовое подключение - statement
 
     private static final String USERNAME = "root";
     private static final String PASSWORD = "ROOT123456";

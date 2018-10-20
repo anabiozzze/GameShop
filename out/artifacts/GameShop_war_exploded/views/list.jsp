@@ -1,14 +1,16 @@
 <%@ page import="java.util.List" %>
 <%@ page import="app.entities.StandartGame" %>
-<%@ page import="app.model.Connector" %>
-<%@ page import="app.model.SingletonModel" %>
-<%@ page import="app.servlets.DelServlet" %><%--
+
+<%--
   Created by IntelliJ IDEA.
   User: andreimironov
   Date: 04/10/2018
   Time: 23:14
   To change this template use File | Settings | File Templates.
 --%>
+
+<%--код страницы "весь каталог"--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,6 +27,8 @@
 <div class="w3-container w3-left-align">
     <br />
 
+
+    <%--создаем таблицу и столбцы, в которые будет выводиться информация--%>
 <table align="left" cellpadding="10px">
     <thead>
 <tr>
@@ -35,6 +39,10 @@
 </tr>
 </thead>
 
+    <%--
+    получаем список всех игр в БД из метода doGet класса ListServlet;
+    затем выводим список через foreach, располагая св-ва элементов списка в столбцах
+    --%>
     <%
         List<StandartGame> games =  (List<StandartGame>) request.getAttribute("allGames");
         if (!games.isEmpty() || games!=null) {
@@ -47,10 +55,6 @@
     <td><%out.print(gm.getName());%></td>
     <td><%out.print(gm.getPrice());%></td>
     <td align="left">
-<%--<%--%>
-    <%--StandartGame game = new StandartGame(gm.getName(), gm.getPrice(), gm.getGenre());--%>
-    <%--SingletonModel.delGames(game);--%>
-<%--%>--%>
 
     <%
             }
@@ -58,12 +62,58 @@
 %>
 
 </table>
-    <br />
+
+    <%--
+    блок для изменения данных игры по ее ID;
+    задает содержание и имена полей для ввода, имена затем используются в методе doPost класса ListServlet.
+    кнопка подтверждает отправку запроса на изменение игры.
+    --%>
+    <form method="post">
+        <div class="w3-container w3-left-align">
+            <br />
+            __________________________________________________________________________________________________
+            <br />
+            <br />
+            <br />
+
+            <button class="w3-button w3-blue-grey w3-round-large" style="width: 300px" type="submit">
+                ИЗМЕНИТЬ ПО ID:</button>
+
+            <label>
+                ID <input type="text" placeholder="введите нужный ID" name="changeID">
+            </label>
+
+                Назв. <input type="text" placeholder="введите новое название" name="changeName">
+            </label>
+
+            <label>
+                Жанр <input type="text" placeholder="введите другой жанр" name="changeGenre">
+            </label>
+
+            <label>
+                Цена <input type="text" placeholder="введите новую цену" name="changePrice">
+            </label>
+
+            <%
+                if (request.getAttribute("successChange")!=null) {
+                    out.println();
+                    out.println("Готово!");
+                }%>
+
+        </div>
+    </form>
+
+
+    <%--
+    блок для удаления игры по ее ID;
+    задает содержание и имя полю для ввода, имя затем используется в методе doPost класса ListServlet.
+    кнопка подтверждает отправку запроса на удаление игры.
+    --%>
     <form method="post">
     <div class="w3-container w3-left-align">
 
         <button class="w3-button w3-blue-grey w3-round-large" style="width: 300px" type="submit">
-            УДАЛИТЬ ПО ID</button>
+            УДАЛИТЬ ПО ID:</button>
 
         <label>
             <input type="text" name="id">
@@ -78,11 +128,17 @@
     </div>
     </form>
 
+    <%--
+    блок для удаления игры по ее названию;
+    задает содержание и имя полю для ввода, имя затем используется в методе doPost класса ListServlet.
+    кнопка подтверждает отправку запроса на удаление игры.
+    --%>
+
     <form method="post">
         <div class="w3-container w3-left-align">
 
             <button class="w3-button w3-blue-grey w3-round-large" style="width: 300px" type="submit">
-                УДАЛИТЬ ПО НАИМЕНОВАНИЮ</button>
+                УДАЛИТЬ ПО НАИМЕНОВАНИЮ:</button>
 
             <label>
                 <input type="text" name="name">
@@ -96,7 +152,7 @@
 
             <br />
 
-            <text><small> будут удалены все подходящие по имени товары!</small></text>
+            <text><small> удаление всех подходящих по имени товаров</small></text>
 
         </div>
     </form>

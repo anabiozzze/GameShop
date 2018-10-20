@@ -7,6 +7,8 @@ import java.util.List;
 
 
 public class SingletonModel {
+    // этот класс берет данные из БД и обрабатывает их согласно запросам от сервлетов
+    // на случай нескольких обращений одновременно, методы синхронизированы
 
     private static SingletonModel model;
     private static Statement statement = Connector.getStatement();
@@ -19,6 +21,7 @@ public class SingletonModel {
     public SingletonModel() {
     }
 
+    // т.к. данные могут использоваться разными сервлетами (в т.ч. одновременно) - реализуем синглтон
     public static synchronized SingletonModel getModel() {
         if (model==null) {
             model = new SingletonModel();
@@ -26,8 +29,9 @@ public class SingletonModel {
         return model;
     }
 
-    public static synchronized List<StandartGame> getList() {
 
+    // метод подключается к БД и формирует список всех её записей
+    public static synchronized List<StandartGame> getList() {
         List<StandartGame> games = new ArrayList<StandartGame>();
 
         try {
@@ -52,6 +56,7 @@ public class SingletonModel {
         return games;
     }
 
+    // метод добавляет новую игру со всеми полями
     public static synchronized void addGames(StandartGame ... gamez) {
         for (StandartGame stg : gamez) {
             thisName = stg.getName();
@@ -67,6 +72,7 @@ public class SingletonModel {
         }
     }
 
+    // удаление конкретной игры - на всякий случай (не реализовано в jsp)
     public static synchronized void delGames(StandartGame game) {
         try {
             thisName = game.getName();
@@ -81,6 +87,7 @@ public class SingletonModel {
         }
     }
 
+    // удаление записи по ID
     public static synchronized void delByID(int ID) {
         try {
 
@@ -91,12 +98,40 @@ public class SingletonModel {
         }
     }
 
+    // удаление записи по имени
     public static synchronized void delByName(String name) {
         try {
 
             statement.executeUpdate("delete from GameShop WHERE name = '"+name+"'");
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // изменение имени игры по ID
+    public static synchronized void setName(String n, int ID) {
+        try {
+            statement.executeUpdate("UPDATE GameShop SET name = '"+n+"' WHERE id = "+ID+"");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // изменение цены игры по ID
+    public static synchronized void setPrice(double p, int ID) {
+        try {
+            statement.executeUpdate("UPDATE GameShop SET price = '"+p+"' WHERE id = "+ID+"");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // изменение жанра записи по ID
+    public static synchronized void setGenre(String g, int ID) {
+        try {
+            statement.executeUpdate("UPDATE GameShop SET genre = '"+g+"' WHERE id = "+ID+"");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
