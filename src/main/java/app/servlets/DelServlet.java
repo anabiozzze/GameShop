@@ -24,7 +24,7 @@ public class DelServlet extends HttpServlet {
         StandartGame game = new StandartGame(name, price, genre);
         model.delGames(game);
 
-        req.setAttribute("success", game);
-        doGet(req, resp);
+//        req.setAttribute("success", game);
+//        doGet(req, resp);
     }
 }

@@ -6,6 +6,7 @@ public class StandartGame {
     private String name;
     private double price;
     private String genre;
+    private int ID;
 
     public StandartGame(String name, double price, String genre) {
         this.name = name;
@@ -26,6 +27,14 @@ public class StandartGame {
 
     public String getGenre() {
         return genre;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public void setName(String name) {

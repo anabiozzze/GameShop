@@ -1,5 +1,8 @@
 <%@ page import="java.util.List" %>
-<%@ page import="app.entities.StandartGame" %><%--
+<%@ page import="app.entities.StandartGame" %>
+<%@ page import="app.model.Connector" %>
+<%@ page import="app.model.SingletonModel" %>
+<%@ page import="app.servlets.DelServlet" %><%--
   Created by IntelliJ IDEA.
   User: andreimironov
   Date: 04/10/2018
@@ -11,16 +14,8 @@
 <head>
     <link rel="stylesheet" href="styles/w3.css">
     <title>ПОЛНЫЙ КАТАЛОГ</title>
-    <style>
-        .layer {
-            width: 85px; /* Ширина блока */
-            height: 50px; /* Высота блока */
-            padding: 5px; /* Поля вокруг текста */
-            border: solid 1px black; /* Параметры рамки */
-            white-space: pre-wrap; /* Запрещаем перенос строк */
-        }
-    </style>
 </head>
+
 <body class="w3-light-gray">
 <div class="w3-container w3-animate-left w3-animate-opacity w3-blue-gray">
     <h1>На данный момент доступны игры:</h1>
@@ -30,58 +25,86 @@
 <div class="w3-container w3-left-align">
     <br />
 
-    <li>
-        <span style="margin-left: 75px"><b>Жанр</b></span>
-        <span style="margin-left: 75px"><b>Название</b></span>
-        <span style="margin-left: 75px"><b>Цена($)</b></span>
-        </li>
-<%
-    List<StandartGame> games =  (List<StandartGame>) request.getAttribute("allGames");
-    if (!games.isEmpty() || games!=null) {
-        for (StandartGame gm : games) {
-%>
-    <li>
-        <%--Выводим описание игры через определенный отступ, чтобы попасть в столбцы категорий--%>
-        <span style = "margin-left: 75px">
-        <%
-            out.print(gm.getGenre() + ";");
-        %>
-        </span>
-        <span style = "margin-left: 75px">
-        <%
-            out.print(gm.getName() + ";");
-        %>
-        </span>
-        <span style = "margin-left: 90px">
-        <%
-            out.print(gm.getPrice());
-        %>
+<table align="left" cellpadding="10px">
+    <thead>
+<tr>
+    <td><b>ID</b></td>
+    <td><b>Жанр</b></td>
+    <td><b>Название</b></td>
+    <td><b>Цена</b></td>
+</tr>
+</thead>
 
-    <%--Добавляем кнопку "удалить"--%>
-    <span class="button1" style = "margin-left: 75px">
-        <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">удалить</button>
-    </span>
-                <%
-        if (request.getAttribute("success")!=null) {
-            out.println();
-            out.println("Игра успешно удалена!");
-        }%>
-    </li>
-
-    <br />
-
-    <%--Возвращаемся в foreach--%>
     <%
-        }
-    } else out.print("КАТАЛОГ ПУСТ");
+        List<StandartGame> games =  (List<StandartGame>) request.getAttribute("allGames");
+        if (!games.isEmpty() || games!=null) {
+            for (StandartGame gm : games) {
     %>
-</div>
-</div>
 
-<br />
-<div class="w3-container w3-left-align">
+<tr>
+    <td><%out.print(gm.getID());%></td>
+    <td><%out.print(gm.getGenre());%></td>
+    <td><%out.print(gm.getName());%></td>
+    <td><%out.print(gm.getPrice());%></td>
+    <td align="left">
+<%--<%--%>
+    <%--StandartGame game = new StandartGame(gm.getName(), gm.getPrice(), gm.getGenre());--%>
+    <%--SingletonModel.delGames(game);--%>
+<%--%>--%>
+
+    <%
+            }
+            }else out.print("КАТАЛОГ ПУСТ");
+%>
+
+</table>
     <br />
-    <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">НА ГЛАВНУЮ</button>
+    <form method="post">
+    <div class="w3-container w3-left-align">
+
+        <button class="w3-button w3-blue-grey w3-round-large" style="width: 300px" type="submit">
+            УДАЛИТЬ ПО ID</button>
+
+        <label>
+            <input type="text" name="id">
+        </label>
+
+        <%
+            if (request.getAttribute("successID")!=null) {
+                out.println();
+                out.println("Игра успешно удалена!");
+            }%>
+
+    </div>
+    </form>
+
+    <form method="post">
+        <div class="w3-container w3-left-align">
+
+            <button class="w3-button w3-blue-grey w3-round-large" style="width: 300px" type="submit">
+                УДАЛИТЬ ПО НАИМЕНОВАНИЮ</button>
+
+            <label>
+                <input type="text" name="name">
+            </label>
+
+            <%
+                if (request.getAttribute("successName")!=null) {
+                    out.println();
+                    out.println("Игра успешно удалена!");
+                }%>
+
+            <br />
+
+            <text><small> будут удалены все подходящие по имени товары!</small></text>
+
+        </div>
+    </form>
+
+    <div class="w3-container w3-left-align">
+        <button class="w3-button w3-round-large w3-blue-gray" onclick="location.href='/'">НА ГЛАВНУЮ</button>
+    </div>
+</div>
 </div>
 </body>
 </html>

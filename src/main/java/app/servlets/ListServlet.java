@@ -12,10 +12,43 @@ import java.io.IOException;
 import java.util.List;
 
 public class ListServlet extends HttpServlet {
+    private SingletonModel model = SingletonModel.getModel();
+    private int id;
+    private String name;
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        try {
+
+            id = Integer.parseInt(req.getParameter("id"));
+            if (id!=0) {
+                model.delByID(id);
+                req.setAttribute("successID", id);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            name = req.getParameter("name");
+            if (!name.equals(null)) {
+                model.delByName(name);
+                req.setAttribute("successName", name);
+            }
+
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+
+        doGet(req, resp);
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        SingletonModel model = SingletonModel.getModel();
         List<StandartGame> servletGames = model.getList();
 
         req.setAttribute("allGames", servletGames);
